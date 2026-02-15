@@ -5,44 +5,55 @@ const submitBtn = document.getElementById("submitBtn");
 
 let selectedFile = null;
 let compressedBlob = null;
+let compressedUrl = null;
 
+// Open file dialog when clicking drop area
 dropArea.onclick = () => fileElem.click();
 
-["dragenter", "dragover"].forEach(e =>
-  dropArea.addEventListener(e, (event) => {
+// Highlight drop area on drag
+["dragenter", "dragover"].forEach(eventName => {
+  dropArea.addEventListener(eventName, (event) => {
     event.preventDefault();
     dropArea.classList.add("highlight");
-  })
-);
+  });
+});
 
-["dragleave", "drop"].forEach(e =>
-  dropArea.addEventListener(e, (event) => {
+// Remove highlight
+["dragleave", "drop"].forEach(eventName => {
+  dropArea.addEventListener(eventName, (event) => {
     event.preventDefault();
     dropArea.classList.remove("highlight");
-  })
-);
+  });
+});
 
+// Handle dropped files
 dropArea.addEventListener("drop", (event) => {
   event.preventDefault();
   handleFiles(event.dataTransfer.files);
 });
 
+// Handle file selection
 fileElem.onchange = (event) => handleFiles(event.target.files);
 
 function handleFiles(files) {
   if (files.length === 0) return;
 
   selectedFile = files[0];
+
   document.getElementById("file-name").textContent = selectedFile.name;
   document.getElementById("file-size").textContent =
     (selectedFile.size / 1024).toFixed(2) + " KB";
+
   fileInfo.classList.remove("hidden");
 
   const reader = new FileReader();
-  reader.onload = (e) => document.getElementById("originalPreview").src = e.target.result;
+  reader.onload = (e) => {
+    document.getElementById("originalPreview").src = e.target.result;
+  };
   reader.readAsDataURL(selectedFile);
 }
 
+// Compress button click
 submitBtn.onclick = async () => {
   if (!selectedFile) {
     alert("Please select an image first.");
@@ -53,10 +64,12 @@ submitBtn.onclick = async () => {
   submitBtn.textContent = "Optimizing...";
 
   const formData = new FormData();
-  formData.append("UploadedImage", selectedFile);
+
+  formData.append("file", selectedFile);
 
   try {
-    const response = await fetch("api/CompressImages/compress-png", {
+    const url = `${window.location.protocol}//${window.location.host}/api/image/compress`;
+    const response = await fetch(url, {
       method: "POST",
       body: formData
     });
@@ -67,17 +80,21 @@ submitBtn.onclick = async () => {
     }
 
     compressedBlob = await response.blob();
-    const compressedUrl = URL.createObjectURL(compressedBlob);
+    compressedUrl = URL.createObjectURL(compressedBlob);
 
     document.getElementById("compressedPreview").src = compressedUrl;
 
     const origSizeKB = selectedFile.size / 1024;
     const compSizeKB = compressedBlob.size / 1024;
 
-    document.getElementById("origSizeDisplay").textContent = origSizeKB.toFixed(2) + " KB";
-    document.getElementById("compSizeDisplay").textContent = compSizeKB.toFixed(2) + " KB";
+    document.getElementById("origSizeDisplay").textContent =
+      origSizeKB.toFixed(2) + " KB";
+
+    document.getElementById("compSizeDisplay").textContent =
+      compSizeKB.toFixed(2) + " KB";
 
     const savings = ((origSizeKB - compSizeKB) / origSizeKB) * 100;
+
     const badge = document.getElementById("savingsBadge");
     badge.textContent = `-${savings.toFixed(0)}% SMALLER`;
     badge.classList.remove("hidden");
@@ -101,6 +118,7 @@ function showModal() {
   const content = document.getElementById("modalContent");
 
   modal.classList.remove("hidden");
+
   setTimeout(() => {
     content.style.transform = "scale(1) translateY(0)";
     content.style.opacity = "1";
@@ -118,15 +136,19 @@ function closeModal() {
 
   setTimeout(() => {
     modal.classList.add("hidden");
+
     fileInfo.classList.add("hidden");
     document.getElementById("originalPreview").src = "";
     document.getElementById("compressedPreview").src = "";
 
-    if (compressedBlob) {
-      URL.revokeObjectURL(compressedBlob);
-      compressedBlob = null;
+    // Properly revoke object URL
+    if (compressedUrl) {
+      URL.revokeObjectURL(compressedUrl);
+      compressedUrl = null;
     }
 
+    compressedBlob = null;
     selectedFile = null;
+
   }, 300);
 }

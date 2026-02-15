@@ -33,26 +33,40 @@ document.addEventListener('DOMContentLoaded', () => {
         processingState.classList.remove('hidden');
 
         const formData = new FormData(convertForm);
-        const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
 
         try {
-            const response = await fetch('', {
+            const url = `${window.location.protocol}//${window.location.host}/api/image/convert`;
+            const response = await fetch(url, {
                 method: 'POST',
-                body: formData,
-                headers: { 'RequestVerificationToken': token }
+                body: formData
             });
 
             if (response.ok) {
-                const data = await response.json();
-                document.getElementById('convertedImg').src = data.convertedUrl;
-                document.getElementById('downloadBtn').href = data.convertedUrl;
-                document.getElementById('downloadBtn').download = `converted-image.${data.extension}`;
-                
-                processingState.classList.add('hidden');
-                resultModal.classList.remove('hidden');
-            } else {
-                throw new Error();
-            }
+                    const blob = await response.blob();
+                    const objectUrl = URL.createObjectURL(blob);
+
+                    // Try to extract filename from Content-Disposition header
+                    let filename = 'converted-image';
+                    const disposition = response.headers.get('content-disposition');
+                    if (disposition) {
+                        const match = /filename=\"?([^\";]+)\"?/.exec(disposition);
+                        if (match && match[1]) filename = match[1];
+                    } else {
+                        // Fallback: use selected target format extension
+                        const form = new FormData(convertForm);
+                        const target = form.get('TargetFormat');
+                        if (target) filename = `converted-image.${target.toString().replace('.', '')}`;
+                    }
+
+                    document.getElementById('convertedImg').src = objectUrl;
+                    document.getElementById('downloadBtn').href = objectUrl;
+                    document.getElementById('downloadBtn').download = filename;
+
+                    processingState.classList.add('hidden');
+                    resultModal.classList.remove('hidden');
+                } else {
+                    throw new Error();
+                }
         } catch (err) {
             alert("Error converting image.");
             location.reload();

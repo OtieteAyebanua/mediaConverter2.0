@@ -124,3 +124,4 @@ C:/Users/ayeba/Desktop/work/mediaConverter/mediaConverter/bin/Debug/net8.0/SixLa
 /Users/mac/Desktop/work/mediaConverter/mediaConverter/obj/Debug/net8.0/mediaConverter.genruntimeconfig.cache
 /Users/mac/Desktop/work/mediaConverter/mediaConverter/obj/Debug/net8.0/ref/mediaConverter.dll
 /Users/mac/Desktop/work/mediaConverter/mediaConverter/bin/Debug/net8.0/launchSettings.json
+/Users/mac/Desktop/work/mediaConverter/mediaConverter/obj/Debug/net8.0/mediaConverter.sourcelink.json

@@ -22,6 +22,7 @@ namespace mediaConverter.Controllers
         /// <param name="file">Video file to compress</param>
         /// <param name="crf">Quality factor (0-51, lower = better quality, default 28)</param>
         /// <returns>Compressed video file</returns>
+        [IgnoreAntiforgeryToken]
         [HttpPost("compress")]
         public async Task<IActionResult> CompressVideo(IFormFile file, [FromQuery] int crf = 28)
         {
@@ -77,6 +78,7 @@ namespace mediaConverter.Controllers
         /// <param name="targetFormat">Target video format (mp4, mkv, mov)</param>
         /// <param name="crf">Quality factor (0-51, lower = better quality, default 28)</param>
         /// <returns>Converted video file</returns>
+        [IgnoreAntiforgeryToken]
         [HttpPost("convert")]
         public async Task<IActionResult> ConvertVideo(IFormFile file, [FromQuery] string targetFormat, [FromQuery] int crf = 28)
         {

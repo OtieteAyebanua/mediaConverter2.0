@@ -21,6 +21,7 @@ namespace mediaConverter.Controllers
         /// </summary>
         /// <param name="file">Image file to compress</param>
         /// <returns>Compressed image file</returns>
+        [IgnoreAntiforgeryToken]
         [HttpPost("compress")]
         public async Task<IActionResult> CompressImage(IFormFile file)
         {
@@ -65,8 +66,9 @@ namespace mediaConverter.Controllers
         /// <param name="file">Image file to convert</param>
         /// <param name="targetFormat">Target image format (jpg, png, webp, gif, bmp, tiff)</param>
         /// <returns>Converted image file</returns>
+        [IgnoreAntiforgeryToken]
         [HttpPost("convert")]
-        public async Task<IActionResult> ConvertImage(IFormFile file, [FromQuery] string targetFormat)
+        public async Task<IActionResult> ConvertImage([FromForm(Name = "ImageFile")] IFormFile file, [FromForm(Name = "TargetFormat")] string targetFormat)
         {
             try
             {

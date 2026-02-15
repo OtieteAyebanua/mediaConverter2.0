@@ -32,15 +32,12 @@ document.addEventListener("DOMContentLoaded", () => {
     processingState.classList.remove("hidden");
 
     const formData = new FormData(uploadForm);
-    const token = document.querySelector(
-      'input[name="__RequestVerificationToken"]'
-    ).value;
 
     try {
-      const response = await fetch("", {
+      const url = `${window.location.protocol}//${window.location.host}/api/video/compress`;
+      const response = await fetch(url, {
         method: "POST",
-        body: formData,
-        headers: { RequestVerificationToken: token },
+        body: formData
       });
 
       if (response.ok) {

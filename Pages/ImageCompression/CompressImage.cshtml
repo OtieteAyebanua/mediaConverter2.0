@@ -6,6 +6,10 @@
 <link rel="stylesheet" href="~/css/CompressImages.css" />
 
 <main class="main-container">
+
+    <!-- Anti-forgery token -->
+    <div id="antiForgeryForm" class="hidden"></div>
+
     <div class="header">
         <a asp-page="/Index" class="back-link">
             <i class="fas fa-arrow-left"></i> Back to Suite
@@ -37,7 +41,7 @@
     </div>
 </main>
 
-<!-- Modal -->
+<!-- Modal for preview -->
 <div id="resultModal" class="modal hidden" onclick="closeModal()">
     <div id="modalContent" class="modal-content">
         <div class="modal-header">
@@ -79,4 +83,4 @@
     </div>
 </div>
 
-<script src="~/js/CompressImages.js"></script>
+<script src="@Url.Content("~/js/CompressImages.js")"></script>
