@@ -37,11 +37,26 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (response.ok) {
-                const data = await response.json();
-                document.getElementById('convertedVideo').src = data.convertedUrl;
-                document.getElementById('downloadBtn').href = data.convertedUrl;
-                document.getElementById('downloadBtn').download = `converted-video${data.extension}`;
-                
+                const blob = await response.blob();
+                const objectUrl = URL.createObjectURL(blob);
+
+                // Try to get filename from header
+                let filename = 'converted-video';
+                const disposition = response.headers.get('content-disposition');
+                if (disposition) {
+                    const match = /filename=\"?([^\";]+)\"?/.exec(disposition);
+                    if (match && match[1]) filename = match[1];
+                } else {
+                    // Fallback to selected extension
+                    const fd = new FormData(convertForm);
+                    const ext = fd.get('TargetExtension');
+                    if (ext) filename = `converted-video${ext}`;
+                }
+
+                document.getElementById('convertedVideo').src = objectUrl;
+                document.getElementById('downloadBtn').href = objectUrl;
+                document.getElementById('downloadBtn').download = filename;
+
                 processingState.classList.add('hidden');
                 resultModal.classList.remove('hidden');
             } else {

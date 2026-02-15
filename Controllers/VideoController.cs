@@ -80,7 +80,7 @@ namespace mediaConverter.Controllers
         /// <returns>Converted video file</returns>
         [IgnoreAntiforgeryToken]
         [HttpPost("convert")]
-        public async Task<IActionResult> ConvertVideo(IFormFile file, [FromQuery] string targetFormat, [FromQuery] int crf = 28)
+        public async Task<IActionResult> ConvertVideo([FromForm(Name = "VideoFile")] IFormFile file, [FromForm(Name = "TargetExtension")] string targetFormat, [FromForm(Name = "CrfValue")] int crf = 28)
         {
             try
             {
