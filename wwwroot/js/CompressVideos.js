@@ -41,13 +41,25 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (response.ok) {
-        const data = await response.json();
+        const blob = await response.blob();
+        const objectUrl = URL.createObjectURL(blob);
 
-        // Populate Modal
-        document.getElementById("compressedVideo").src = data.compressedUrl;
-        document.getElementById("downloadBtn").href = data.compressedUrl;
-        document.getElementById("compSizeDisplay").textContent =
-          data.compressedSize;
+        // Set compressed preview and download
+        document.getElementById("compressedVideo").src = objectUrl;
+        document.getElementById("downloadBtn").href = objectUrl;
+
+        // Try get filename from header
+        let filename = 'compressed_video';
+        const disposition = response.headers.get('content-disposition');
+        if (disposition) {
+          const match = /filename=\"?([^\";]+)\"?/.exec(disposition);
+          if (match && match[1]) filename = match[1];
+        }
+        document.getElementById("downloadBtn").download = filename;
+
+        // Display size
+        const compSizeKB = (blob.size / 1024).toFixed(2) + ' KB';
+        document.getElementById("compSizeDisplay").textContent = compSizeKB;
 
         processingState.classList.add("hidden");
         resultModal.classList.remove("hidden");

@@ -24,7 +24,7 @@ namespace mediaConverter.Controllers
         /// <returns>Compressed video file</returns>
         [IgnoreAntiforgeryToken]
         [HttpPost("compress")]
-        public async Task<IActionResult> CompressVideo(IFormFile file, [FromQuery] int crf = 28)
+        public async Task<IActionResult> CompressVideo([FromForm(Name = "VideoFile")] IFormFile file, [FromForm(Name = "CrfValue")] int crf = 28)
         {
             try
             {
