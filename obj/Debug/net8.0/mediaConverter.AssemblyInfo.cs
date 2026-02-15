@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("mediaConverter")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dca35755eb4bf5b8518322e4848277d4517a132e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7e5fe1704c63d9977d50c24533eacf06ac277c94")]
 [assembly: System.Reflection.AssemblyProductAttribute("mediaConverter")]
 [assembly: System.Reflection.AssemblyTitleAttribute("mediaConverter")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
