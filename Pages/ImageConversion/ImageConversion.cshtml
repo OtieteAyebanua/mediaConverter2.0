@@ -1,0 +1,108 @@
+@page
+@{
+    ViewData["Title"] = "Convert Image | SwiftConverter";
+}
+
+<link rel="stylesheet" href="~/css/ImageConversion.css" />
+
+<main class="main-container">
+    <div class="header">
+        <a asp-page="/Index" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Suite
+        </a>
+        <h1 class="page-title">Image Converter</h1>
+        <p class="subtitle">Convert between JPG, PNG, WebP, BMP, and TIFF</p>
+    </div>
+
+    <form method="post" id="convertForm">
+        @Html.AntiForgeryToken()
+        <div class="convert-box">
+            <div id="drop-area" class="drop-area">
+                <input type="file" id="fileElem" name="ImageFile" class="hidden" accept="image/*" required />
+                <div class="upload-icon">
+                    <i class="fas fa-images"></i>
+                </div>
+                <p class="drop-text">Select image / drag and drop</p>
+                <p class="drop-subtext">Supports all major formats up to 20MB</p>
+            </div>
+
+            <div id="file-info" class="file-info hidden">
+                <div class="file-details">
+                    <div class="image-preview-thumb">
+                        <img id="image-thumb" src="" alt="preview" />
+                    </div>
+                    <div class="file-metadata">
+                        <p id="file-name" class="file-name">image_filename.png</p>
+                        <p id="file-size" class="file-size">0.00 MB</p>
+                    </div>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <label>Convert To</label>
+                        <select name="TargetFormat" class="custom-select">
+                            <option value="jpg">JPG (Standard)</option>
+                            <option value="png">PNG (Lossless)</option>
+                            <option value="webp" selected>WebP (Modern/Small)</option>
+                            <option value="bmp">BMP (Uncompressed)</option>
+                            <option value="tiff">TIFF (Professional)</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label>Quality</label>
+                        <select name="Quality" class="custom-select">
+                            <option value="100">Best Quality</option>
+                            <option value="85" selected>High (Optimized)</option>
+                            <option value="60">Medium (Smallest)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" id="submitBtn" class="convert-btn">
+                    <i class="fas fa-sync-alt"></i> Convert Image
+                </button>
+            </div>
+
+            <div id="processing-state" class="processing-state hidden">
+                <div class="spinner"></div>
+                <h3>Processing Image...</h3>
+            </div>
+        </div>
+    </form>
+</main>
+
+<div id="resultModal" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="complete">Conversion Successful!</h2>
+        </div>
+
+        <div class="modal-previews">
+            <div class="preview-box">
+                <div class="preview-header"><span>Original</span></div>
+                <div class="preview-img-container">
+                    <img id="originalImg" src="" />
+                </div>
+            </div>
+            <div class="preview-box">
+                <div class="preview-header optimized">
+                    <span>Converted</span>
+                </div>
+                <div class="preview-img-container optimized">
+                    <img id="convertedImg" src="" />
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-actions">
+            <a id="downloadBtn" href="#" download class="download-btn">
+                <i class="fas fa-download"></i> Download Image
+            </a>
+            <button type="button" onclick="location.reload()" class="restart-btn">
+                New Conversion
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/ImageConversion.js"></script>

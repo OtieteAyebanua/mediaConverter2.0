@@ -1,0 +1,109 @@
+@page
+@{
+    ViewData["Title"] = "Compress Video | SwiftConverter";
+}
+
+<link rel="stylesheet" href="~/css/CompressVideos.css" />
+
+<main class="main-container">
+    <div class="header">
+        <a asp-page="/Index" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Suite
+        </a>
+        <h1 class="page-title">Compress Video</h1>
+        <p class="subtitle">Reduce video file size while maintaining quality</p>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" id="uploadForm">
+        @Html.AntiForgeryToken()
+        <div class="compress-box">
+            <div id="drop-area" class="drop-area">
+                <input type="file" id="fileElem" name="VideoFile" class="hidden" accept="video/*" required />
+                <div class="upload-icon">
+                    <i class="fas fa-file-video"></i>
+                </div>
+                <p class="drop-text">Select video / drag and drop</p>
+                <p class="drop-subtext">MP4, MOV, or WEBM up to 100MB</p>
+            </div>
+
+            <div id="file-info" class="file-info hidden">
+                <div class="file-details">
+                    <div class="video-preview-thumb">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                    <div class="file-metadata">
+                        <p id="file-name" class="file-name">video_filename.mp4</p>
+                        <p id="file-size" class="file-size">0.00 MB</p>
+                    </div>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <label>Compression Level</label>
+                        <select name="CrfValue" class="custom-select">
+                            <option value="28">High (Smallest File)</option>
+                            <option value="23" selected>Medium (Balanced)</option>
+                            <option value="18">Low (Best Quality)</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label>Downscale To</label>
+                        <select name="Resolution" class="custom-select">
+                            <option value="same">Keep Original</option>
+                            <option value="1280x720">720p (HD)</option>
+                            <option value="854x480">480p (SD)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" id="submitBtn" class="compress-btn">
+                    <i class="fas fa-bolt"></i> Compress Now
+                </button>
+            </div>
+
+            <div id="processing-state" class="processing-state hidden">
+                <div class="spinner"></div>
+                <h3>Compressing Video...</h3>
+                <p>Please wait, our server is optimizing your file.</p>
+            </div>
+        </div>
+    </form>
+</main>
+
+<div id="resultModal" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="complete">Compression Complete!</h2>
+            <p>Your optimized video is ready.</p>
+        </div>
+
+        <div class="modal-previews">
+            <div class="preview-box">
+                <div class="preview-header"><span>Original</span></div>
+                <div class="preview-video">
+                    <video id="originalVideo" controls muted></video>
+                </div>
+            </div>
+            <div class="preview-box">
+                <div class="preview-header optimized">
+                    <span>Compressed</span>
+                    <span id="compSizeDisplay">0 MB</span>
+                </div>
+                <div class="preview-video optimized">
+                    <video id="compressedVideo" controls></video>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-actions">
+            <a id="downloadBtn" href="#" download class="download-btn">
+                <i class="fas fa-file-download"></i> Download Video
+            </a>
+            <button type="button" onclick="closeModal()" class="restart-btn">
+                <i class="fas fa-redo-alt"></i> New Compression
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/CompressVideos.js"></script>

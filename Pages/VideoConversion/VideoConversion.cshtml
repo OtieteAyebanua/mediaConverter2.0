@@ -1,0 +1,98 @@
+@page
+@{
+    ViewData["Title"] = "Video Converter | SwiftConverter";
+}
+
+<link rel="stylesheet" href="~/css/VideoConversion.css" />
+
+<main class="main-container">
+    <div class="header">
+        <a asp-page="/Index" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Suite
+        </a>
+        <h1 class="page-title">Video Converter</h1>
+        <p class="subtitle">Convert videos to MP4, MKV, AVI, MOV, or WEBM</p>
+    </div>
+
+    <form method="post" enctype="multipart/form-data" id="convertForm">
+        @Html.AntiForgeryToken()
+        <div class="convert-box">
+            <div id="drop-area" class="drop-area">
+                <input type="file" id="fileElem" name="VideoFile" class="hidden" accept="video/*" required />
+                <div class="upload-icon">
+                    <i class="fas fa-file-video"></i>
+                </div>
+                <p class="drop-text">Select video / drag and drop</p>
+                <p class="drop-subtext">Supports files up to 200MB</p>
+            </div>
+
+            <div id="file-info" class="file-info hidden">
+                <div class="file-details">
+                    <div class="video-preview-thumb">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <div class="file-metadata">
+                        <p id="file-name" class="file-name">video_filename.mov</p>
+                        <p id="file-size" class="file-size">0.00 MB</p>
+                    </div>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <label>Target Format</label>
+                        <select name="TargetExtension" class="custom-select">
+                            <option value=".mp4">MP4 (Most Compatible)</option>
+                            <option value=".mkv">MKV (Matroska)</option>
+                            <option value=".webm">WebM (Web Optimized)</option>
+                            <option value=".avi">AVI (Legacy)</option>
+                            <option value=".mov">MOV (Apple)</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label>Video Codec</label>
+                        <select name="Codec" class="custom-select">
+                            <option value="libx264" selected>H.264 (Standard)</option>
+                            <option value="libx265">H.265 (HEVC - Smaller)</option>
+                            <option value="libvpx-vp9">VP9 (Google)</option>
+                            <option value="copy">Copy (Direct Stream - Fast)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button type="submit" id="submitBtn" class="convert-btn">
+                    <i class="fas fa-sync-alt"></i> Start Conversion
+                </button>
+            </div>
+
+            <div id="processing-state" class="processing-state hidden">
+                <div class="spinner"></div>
+                <h3>Converting Video...</h3>
+                <p>Remuxing and re-encoding for your chosen format.</p>
+            </div>
+        </div>
+    </form>
+</main>
+
+<div id="resultModal" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="complete">Conversion Finished!</h2>
+        </div>
+        <div class="modal-previews">
+            <div class="preview-box">
+                <div class="preview-header"><span>Original</span></div>
+                <video id="originalVideo" controls muted class="res-video"></video>
+            </div>
+            <div class="preview-box">
+                <div class="preview-header optimized"><span>Converted</span></div>
+                <video id="convertedVideo" controls class="res-video"></video>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <a id="downloadBtn" href="#" download class="download-btn">Download Now</a>
+            <button type="button" onclick="location.reload()" class="restart-btn">New Task</button>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/VideoConversion.js"></script>

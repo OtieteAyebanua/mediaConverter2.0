@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "dgSpecHash": "1UmHmw4ejE0=",
+  "success": true,
+  "projectFilePath": "/Users/mac/Desktop/work/mediaConverter/mediaConverter/mediaConverter.csproj",
+  "expectedPackageFiles": [
+    "/Users/mac/.nuget/packages/ffmpegcore/5.4.0/ffmpegcore.5.4.0.nupkg.sha512",
+    "/Users/mac/.nuget/packages/instances/3.0.2/instances.3.0.2.nupkg.sha512",
+    "/Users/mac/.nuget/packages/sixlabors.imagesharp/3.1.12/sixlabors.imagesharp.3.1.12.nupkg.sha512",
+    "/Users/mac/.nuget/packages/system.io.pipelines/9.0.10/system.io.pipelines.9.0.10.nupkg.sha512",
+    "/Users/mac/.nuget/packages/system.text.encodings.web/9.0.10/system.text.encodings.web.9.0.10.nupkg.sha512",
+    "/Users/mac/.nuget/packages/system.text.json/9.0.10/system.text.json.9.0.10.nupkg.sha512",
+    "/Users/mac/.nuget/packages/microsoft.netcore.app.ref/8.0.23/microsoft.netcore.app.ref.8.0.23.nupkg.sha512",
+    "/Users/mac/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.23/microsoft.aspnetcore.app.ref.8.0.23.nupkg.sha512",
+    "/Users/mac/.nuget/packages/microsoft.netcore.app.host.osx-arm64/8.0.23/microsoft.netcore.app.host.osx-arm64.8.0.23.nupkg.sha512"
+  ],
+  "logs": []
+}

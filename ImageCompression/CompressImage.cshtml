@@ -1,0 +1,82 @@
+﻿@page
+@{
+    ViewData["Title"] = "Compress Image | SwiftConverter";
+}
+
+<link rel="stylesheet" href="~/css/CompressImages.css" />
+
+<main class="main-container">
+    <div class="header">
+        <a asp-page="/Index" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Suite
+        </a>
+        <h1 class="page-title">Compress Image</h1>
+        <p class="subtitle">PNG, JPEG, SVG, GIF, WebP, BMP</p>
+    </div>
+
+    <div class="compress-box">
+        <div id="drop-area" class="drop-area">
+            <input type="file" id="fileElem" name="UploadedImage" class="hidden" accept="image/*" />
+            <div class="upload-icon">
+                <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+            <p class="drop-text">Select image / drag and drop</p>
+            <p class="drop-subtext">Supports PNG, JPG, WebP up to 20MB</p>
+        </div>
+
+        <div id="file-info" class="file-info hidden">
+            <div class="file-details">
+                <i class="fas fa-image file-icon"></i>
+                <div>
+                    <p id="file-name" class="file-name">filename.jpg</p>
+                    <p id="file-size" class="file-size">0.00 KB</p>
+                </div>
+            </div>
+            <button type="button" id="submitBtn" class="compress-btn">Compress Now</button>
+        </div>
+    </div>
+</main>
+
+<!-- Modal -->
+<div id="resultModal" class="modal hidden" onclick="closeModal()">
+    <div id="modalContent" class="modal-content">
+        <div class="modal-header">
+            <h2 class="complete">Compression Complete!</h2>
+            <p>Your image is ready for professional use.</p>
+        </div>
+
+        <div class="modal-previews">
+            <div class="preview-box">
+                <div class="preview-header">
+                    <span>Original File</span>
+                    <span id="origSizeDisplay">0 KB</span>
+                </div>
+                <div class="preview-image">
+                    <img id="originalPreview" src="" />
+                </div>
+            </div>
+
+            <div class="preview-box">
+                <div class="preview-header optimized">
+                    <span>Optimized</span>
+                    <span id="compSizeDisplay">0 KB</span>
+                </div>
+                <div class="preview-image optimized">
+                    <img id="compressedPreview" src="" />
+                    <div id="savingsBadge" class="savings-badge hidden"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-actions">
+            <a id="downloadBtn" href="#" download class="download-btn">
+                <i class="fas fa-file-download"></i> Download Now
+            </a>
+            <button type="button" onclick="closeModal()" class="restart-btn">
+                <i class="fas fa-redo-alt"></i> Start New Compression
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/CompressImages.js"></script>
