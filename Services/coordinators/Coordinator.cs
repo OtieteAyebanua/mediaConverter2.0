@@ -30,29 +30,7 @@ namespace mediaConverter.Services
             if (extension == null || image == null || image.Length == 0)
                 return null;
 
-            string type = extension.ToLower();
-            FileContentResult compressedImage = null;
-
-            switch (type)
-            {
-                case "png":
-                    compressedImage = await _imageService.CompressPNGAsync(image);
-                    break;
-
-                case "jpg":
-                case "jpeg":
-                    compressedImage = await _imageService.CompressJPGAsync(image);
-                    break;
-
-                case "gif":
-                    compressedImage = await _imageService.CompressGIFAsync(image);
-                    break;
-
-                default:
-                    throw new ArgumentException("Unsupported image format");
-            }
-
-            return compressedImage;
+            return await _imageService.CompressImageAsync(image);
         }
 
         public async Task<FileContentResult> CoordinateImageConversion(IFormFile image, string targetExtension)
